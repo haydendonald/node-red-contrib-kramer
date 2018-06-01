@@ -36,6 +36,7 @@ module.exports = {
                 errorCallback("disconnected", "lost connection");
                 server.connect(port, ipAddress, function() {
                     reconnectionCallback();
+                    connected = true;
                 });
                 connected = false;
             }
@@ -77,23 +78,28 @@ module.exports = {
 
     //Add something to be sent to the buffer
     send: function send(buffer, successCallback, responseCallback) {
-        //If it already exists don't resend it
-        var process = true;
-        for(var i = 0; i < outgoingBuffer.length; i++) {
-            if(outgoingBuffer[i].buffer.equals(buffer)) {
-                process = false;
+        if(connected == true) {
+            //If it already exists don't resend it
+            var process = true;
+            for(var i = 0; i < outgoingBuffer.length; i++) {
+                if(outgoingBuffer[i].buffer.equals(buffer)) {
+                    process = false;
+                }
+            }
+            if(process == true) {
+                var command = {
+                    "buffer": buffer,
+                    "successCallback": successCallback,
+                    "timeout": 0,
+                    "sent": false,
+                    "retries": 0,
+                    "responseCallback": responseCallback
+                }
+                outgoingBuffer.push(command);
             }
         }
-        if(process == true) {
-            var command = {
-                "buffer": buffer,
-                "successCallback": successCallback,
-                "timeout": 0,
-                "sent": false,
-                "retries": 0,
-                "responseCallback": responseCallback
-            }
-            outgoingBuffer.push(command);
+        else {
+            errorCallback("cannot send", "disconnected");
         }
     }
 

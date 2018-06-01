@@ -49,4 +49,48 @@
 
 <!-- Information Panel -->
 <script type="text/x-red" data-help-name="kramer-kramer">
+    <h1>node-red-contrib-kramer</h1>
+    Kramer Control for Node Red
+    Tested Using the VP-774A
+    
+    <h1>Required MSG Object (Will also be the same on the output unless msg.topic is response in which case the msg.payload will be the response)</h1>
+    msg.payload.type* - The type of command to be set, can either be "set" or "get"
+    msg.payload.func* - The function to be processed, look below at the supported functions, can also be sent the raw command ID found in the offical documentation
+    msg.payload.param* - The parameters for the function, look below for the supported parameters, can also be sent the raw command ID found in the offical documentation
+    
+    (* = required)
+    
+    <h1>List of Supported Commands</h1>
+    <h2>msg.payload.func = "display mode"</h2>
+    msg.payload.param = "single window"
+    msg.payload.param = "picture In picture"
+    msg.payload.param = "picture + picture"
+    msg.payload.param = "split"
+    msg.payload.param = "customized"
+    <h2>msg.payload.func = "input source"</h2>
+    msg.payload.param = "hdmi1"
+    msg.payload.param = "hdmi2"
+    msg.payload.param = "hdmi3"
+    msg.payload.param = "hdmi4"
+    msg.payload.param = "pc1"
+    msg.payload.param = "pc2"
+    msg.payload.param = "vc"
+    msg.payload.param = "dp"
+    msg.payload.param = "sdi"
+    <h2>msg.payload.func = "input volume"</h2>
+    msg.payload.param = volume level (-20 -> 4) [dB]
+    <h2>msg.payload.func = "output volume"</h2>
+    msg.payload.param = volume level (-80 -> 20) [dB]
+    <h2>msg.payload.func = "mic1 volume"</h2>
+    msg.payload.param = volume level (-100 -> 12) [dB]
+    <h2>msg.payload.func = "mic2 volume"</h2>
+    msg.payload.param = volume level (-100 -> 12) [dB]
+    <h2>msg.payload.func = "mic1 mix"</h2>
+    msg.payload.param = volume level (-100 -> 1) [dB]
+    <h2>msg.payload.func = "mix2 mix"</h2>
+    msg.payload.param = volume level (-100 -> 1) [dB]
+    <h2>msg.payload.func = "line mix"</h2>
+    msg.payload.param = volume level (-100 -> 0) [dB]
+
+    <a href="https://k.kramerav.com/downloads/manuals/vp-774a_rev_2.pdf#page=104">More Commands Avaliable in The Documentation on Page 104 -></a>
 </script>
