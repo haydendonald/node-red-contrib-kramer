@@ -13,36 +13,33 @@ msg.payload.param* - The parameters for the function, look below for the support
 (* = required)
 
 # List of Supported Commands
-## msg.payload.func = 
-## Display Mode
-msg.payload.param = 
-Single Window
-Picture In Picture
-Picture + Picture
-Split
-Customized
-## Input Source
-msg.payload.param =
-hdmi1
-hdmi2
-hdmi3
-hdmi4
-pc1
-pc2
-vc
-dp
-sdi
-## Input Volume
+## msg.payload.func = "display mode"
+msg.payload.param = "single window"
+msg.payload.param = "picture In picture"
+msg.payload.param = "picture + picture"
+msg.payload.param = "split"
+msg.payload.param = "customized"
+## msg.payload.func = "input source"
+msg.payload.param = "hdmi1"
+msg.payload.param = "hdmi2"
+msg.payload.param = "hdmi3"
+msg.payload.param = "hdmi4"
+msg.payload.param = "pc1"
+msg.payload.param = "pc2"
+msg.payload.param = "vc"
+msg.payload.param = "dp"
+msg.payload.param = "sdi"
+## msg.payload.func = "input volume"
 msg.payload.param = volume level (-20 -> 4) [dB]
-## Output Volume
+## msg.payload.func = "output volume"
 msg.payload.param = volume level (-80 -> 20) [dB]
-## Mic1 Volume
+## msg.payload.func = "mic1 volume"
 msg.payload.param = volume level (-100 -> 12) [dB]
-## Mic2 Volume
+## msg.payload.func = "mic2 volume"
 msg.payload.param = volume level (-100 -> 12) [dB]
-## Mic1 Mix
+## msg.payload.func = "mic1 mix"
 msg.payload.param = volume level (-100 -> 1) [dB]
-## Mix2 Mix
+## msg.payload.func = "mix2 mix"
 msg.payload.param = volume level (-100 -> 1) [dB]
-## Line Mix
+## msg.payload.func = "line mix"
 msg.payload.param = volume level (-100 -> 0) [dB]
