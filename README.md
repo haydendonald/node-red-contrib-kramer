@@ -45,4 +45,4 @@ msg.payload.param = volume level (-100 -> 1) [dB]
 ## msg.payload.func = "line mix"
 msg.payload.param = volume level (-100 -> 0) [dB]
 
-[More Commands Avaliable in The Documentation on Page 104 ->](https://k.kramerav.com/downloads/manuals/vp-774a_rev_2.pdf "Documentation")
+[More Commands Avaliable in The Documentation on Page 104 ->](https://k.kramerav.com/downloads/manuals/vp-774a_rev_2#page=104.pdf "Documentation")
