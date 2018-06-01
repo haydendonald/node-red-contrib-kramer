@@ -1,0 +1,27 @@
+{
+  "name": "node-red-contrib-kramer",
+  "version": "0.0.1",
+  "description": "Kramer Control For Node Red",
+  "main": "kramer.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:haydendonald/node-red-contrib-kramer.git"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "node-red",
+    "kramer",
+    "vp-774a",
+    "switcher"
+  ],
+  "node-red": {
+    "nodes": {
+      "Kramer": "kramer.js"
+    }
+  },
+  "author": "Hayden Donald",
+  "bugs": {
+    "url": "https://github.com/haydendonald/node-red-contrib-kramer/issues"
+  },
+  "homepage": "https://github.com/estbeetoo/node-red-contrib-kramer#readme"
+}
