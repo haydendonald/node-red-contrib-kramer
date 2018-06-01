@@ -12,16 +12,16 @@ msg.payload.param* - The parameters for the function, look below for the support
 
 (* = required)
 
-#List of Supported Commands
-##msg.payload.func = 
-##Display Mode
+# List of Supported Commands
+## msg.payload.func = 
+## Display Mode
 msg.payload.param = 
 Single Window
 Picture In Picture
 Picture + Picture
 Split
 Customized
-##Input Source
+## Input Source
 msg.payload.param =
 hdmi1
 hdmi2
@@ -32,17 +32,17 @@ pc2
 vc
 dp
 sdi
-##Input Volume
+## Input Volume
 msg.payload.param = volume level (-20 -> 4) [dB]
-##Output Volume
+## Output Volume
 msg.payload.param = volume level (-80 -> 20) [dB]
-##Mic1 Volume
+## Mic1 Volume
 msg.payload.param = volume level (-100 -> 12) [dB]
-##Mic2 Volume
+## Mic2 Volume
 msg.payload.param = volume level (-100 -> 12) [dB]
-##Mic1 Mix
+## Mic1 Mix
 msg.payload.param = volume level (-100 -> 1) [dB]
-##Mix2 Mix
+## Mix2 Mix
 msg.payload.param = volume level (-100 -> 1) [dB]
-##Line Mix
+## Line Mix
 msg.payload.param = volume level (-100 -> 0) [dB]
