@@ -6,24 +6,8 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-ipAddress"><i class="icon-bookmark"></i> IP Address</label>
-        <input type="text" id="node-input-ipAddress">
-    </div>
-    <div class="form-row">
-        <label for="node-input-port"><i class="icon-bookmark"></i> Port</label>
-        <input type="text" id="node-input-port">
-    </div>
-    <div class="form-row">
-        <label for="node-input-username"><i class="icon-bookmark"></i> Username</label>
-        <input type="text" id="node-input-username">
-    </div>
-    <div class="form-row">
-        <label for="node-input-password"><i class="icon-bookmark"></i> Password</label>
-        <input type="text" id="node-input-password">
-    </div>
-    <div class="form-row">
-        <label for="node-input-deviceId"><i class="icon-bookmark"></i> ID</label>
-        <input type="text" id="node-input-deviceId">
+        <label for="node-input-network"><i class="icon-bookmark"></i> Network</label>
+        <input type="text" id="node-input-network">
     </div>
 </script>
 
@@ -34,13 +18,11 @@
         color: '#fffbef',
         defaults: {
             name: {value: ""},
-            ipAddress: {value: "0.0.0.0", required: true},
-            port: {value: 5000, required: true, validate: RED.validators.number()},
-            deviceId: {value: "01", required: true},
+            network: {value: "", type: "kramer-network"}
         },
         inputs: 1,
         outputs: 1,
-        icon: "panasonic.png",
+        icon: "kramer.png",
         label: function() {
             return this.name||"Kramer";
         }
@@ -91,6 +73,6 @@
     msg.payload.param = volume level (-100 -> 1) [dB]
     <h2>msg.payload.func = "line mix"</h2>
     msg.payload.param = volume level (-100 -> 0) [dB]
-
+</br>
     <a href="https://k.kramerav.com/downloads/manuals/vp-774a_rev_2.pdf#page=112">More Commands Avaliable in The Documentation on Page 104 -></a>
 </script>

@@ -16,6 +16,7 @@
   ],
   "node-red": {
     "nodes": {
+      "Network": "network.js",
       "Kramer": "kramer.js"
     }
   },

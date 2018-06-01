@@ -1,64 +1,20 @@
-//var tcp = require('net');
-var eventEmitter = require("events");
 var commands = require("./commands.js");
-var server = require("./tcp.js");
-class EventEmitter extends eventEmitter{}
 module.exports = function(RED)
 {
     //Main Function
     function Kramer(config)
     {
-        const emitter = new EventEmitter();
         RED.nodes.createNode(this, config);
-        var deviceId = config.deviceId;
-        var ipAddress = config.ipAddress;
-        var port = config.port;
+        var network = RED.nodes.getNode(config.network);
+        //var server = network.server;
         var node = this;
         var connected = false;
         var commandBuffer = [];
         var md5Hash;
 
-        node.status({fill:"yellow",shape:"dot",text:"Attempting Connection..."});
-        server.connect(port, ipAddress, function() {
-            node.status({fill:"yellow",shape:"dot",text:"Sending ACK"});
-            connect(server, deviceId, ipAddress, port, function(state) {
-                if(state == true) {
-                    node.status({fill:"green",shape:"dot",text:"Connected!"});
-                }
-                else {
-                    node.status({fill:"red",shape:"dot",text:"Failed To Connect"});
-                }
-            });
-        });
-
-        //Add the incoming callback
-        server.setIncomingCallback(function(message) {
-            var msg = {
-                "payload":commands.findFunction(message, deviceId)
-            };
-            if(msg.payload == undefined){return;}
-            node.send(msg);
-            node.status({fill:"green",shape:"dot",text:"Got Data!"}); 
-        });
-
-        //Add the error callback
-        server.setErrorCallback(function(error, description) {
-            var nodeText = "";
-            var errorText = "";
-            switch(error) {
-                case "socket": nodeText = "Socket Error"; errorText = "Socket Error: " + description; break;
-                case "disconnected": nodeText = "Disconnected"; errorText = "Disconnected: " + description; break;
-                case "cannot send": nodeText = "Cannot Send"; errorText = "Not Connected Cannot Send!"; break;
-                default: nodeText = "Unknown Error"; errorText = "Unknown Error: " + error + ", " + description; break;
-            }
-
-            RED.log.error(errorText.toString());
-            node.status({fill:"red",shape:"dot",text:nodeText.toString()}); 
-        });
-
-
+        network.link(node);
         node.on("close", function() {
-            server.close();
+            network.server.close();
         });
 
         node.on("input", function(msg) {
@@ -97,10 +53,10 @@ module.exports = function(RED)
 
                     node.status({fill:"yellow",shape:"dot",text:"Sending..."});
                     if(msg.topic == "raw") {
-                        sendOutCommand(server, deviceId, msg.payload.type, msg.payload.func, msg.payload.param, callback);
+                        sendOutCommand(network.server, network.deviceId, msg.payload.type, msg.payload.func, msg.payload.param, callback);
                     }
                     else {
-                        sendOutCommand(server, deviceId, msg.payload.type, commands.getFunction(msg.payload.func), commands.getParameter(msg.payload.func, msg.payload.param), callback);
+                        sendOutCommand(network.server, network.deviceId, msg.payload.type, commands.getFunction(msg.payload.func), commands.getParameter(msg.payload.func, msg.payload.param), callback);
                     }
                 }
             }
@@ -109,30 +65,7 @@ module.exports = function(RED)
     RED.nodes.registerType("kramer-kramer", Kramer);
 }
 
-//Connect
-function connect(server, deviceId, ipAddress, port, callback) {
-    var buffer = new Buffer(1);
-    buffer.writeInt8(0x0D);
-    server.send(buffer, 
-    //Success
-    function(state) {
-        if(state == true) {
-            callback(true);
-        }
-        else {
-            callback(false);
-        }
-    },
-    //Response
-    function(message) {
-        if(message[0] == "0x0D"){
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-}
+
 
 //Send out a raw command
 function sendOutCommand(server, deviceId, type, func, param, callback) {
