@@ -11,6 +11,10 @@ module.exports = {
             case "mic1 mix": return "253";
             case "mic2 mix": return "255";
             case "line mix": return "254";
+            case "mic1 mute": return "7451";
+            case "mic2 mute": return "7461";
+            case "lineMix mute": return "2541";
+            case "output mute": return "7431";
         }
     },
 
@@ -51,6 +55,15 @@ module.exports = {
             case "mic2 volume": {
                 return parameter;
             }
+            case "mic1 mute": {
+                return parameter;
+            }
+            case "mic2 mute": {
+                return parameter;
+            }
+            case "output mute": {
+                return parameter;
+            }
         }
     },
 
@@ -71,8 +84,41 @@ module.exports = {
             default: type=rawMessage.toString().substr(6,1);
         }
 
-        //Function
-        switch(rawMessage.toString().substr(8, 3)) {
+
+        var firstIndex = 0;
+        var lastIndex = 0;
+        var lasstIndex = 0;
+        for(var i = 0; i < rawMessage.toString().length; i++) {
+            if(rawMessage.toString()[i] == ",") {
+                if(firstIndex == 0) {
+                    firstIndex = i;
+                }
+                else if(lastIndex == 0) {
+                    lastIndex = i - firstIndex;
+                    lasstIndex = i;
+                }
+            }
+        }
+
+        var functionCode = rawMessage.toString().substr(firstIndex + 1, lastIndex - 1);
+
+        
+        firstIndex = 0;
+        lastIndex = 0;
+        for(var i = lasstIndex; i < rawMessage.toString().length; i++) {
+            if(rawMessage.toString()[i] == ",") {
+                if(firstIndex == 0) {
+                    firstIndex = i;
+                }
+                else if(lastIndex == 0) {
+                    lastIndex = i - firstIndex;
+                }
+            }
+        }
+
+        var parameterCode = rawMessage.toString().substr(firstIndex + 1, lastIndex - 1);
+
+        switch(functionCode) {
             case "110": {
                 func="display mode"; 
                 switch(rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '')) {
@@ -80,7 +126,7 @@ module.exports = {
                     case "1": param="picture in picture"; break;
                     case "2": param="split"; break;
                     case "3": param="customized"; break;
-                    default: param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                    default: param = parameterCode;
                 }
                 break;
             }
@@ -96,46 +142,62 @@ module.exports = {
                     case "9": param="cv"; break;
                     case "16": param="dp"; break;
                     case "17": param="sdi1"; break;
-                    default: param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                    default: param = parameterCode;
                 }
                 break;
             }
             case "211": {
                 func="input volume";
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
             case "212": {
                 func="output volume"; 
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
             case "213": {
                 func="mic1 volume"; 
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
             case "214": {
                 func="mic2 volume";
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, ''); 
+                param = parameterCode;
                 break;
             }
             case "253": {
                 func="mic1 mix"; 
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
             case "255": {
                 func="mic2 mix"; 
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
             case "254": {
                 func="line mix"; 
-                param = rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+                param = parameterCode;
                 break;
             }
-            default: func = rawMessage.toString().substr(8, 3); param=rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '');
+            case "7451": {
+                func="mic1 mute";
+                param = parameterCode;
+            }
+            case "7461": {
+                func="mic2 mute";
+                param = parameterCode;
+            }
+            case "2541": {
+                func="lineMix mute";
+                param = parameterCode;
+            }
+            case "7431": {
+                func="output mute";
+                param = parameterCode;
+            }
+            default: func = functionCode; param=parameterCode;
         }
 
         return {
