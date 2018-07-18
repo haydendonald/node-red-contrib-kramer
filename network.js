@@ -26,7 +26,7 @@ module.exports = function(RED)
                 }
                 else {
                     sendStatus(network, "red", "Failed to Connect");
-                    RED.node.error("ERROR: Failed to send ACK");
+                    RED.log.error("ERROR: Failed to send ACK");
                 }
             });
         });
