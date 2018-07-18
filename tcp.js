@@ -31,7 +31,7 @@ module.exports = {
             }
         });
         server.on("error", function(error) {
-            if(error.toString().includes("ECONNREFUSED")){errorCallback("socket", "Connection Refused"); retryConnection = false;}
+            if(error.toString().includes("ECONNREFUSED")){errorCallback("socket", "Connection Refused, Please Redeploy"); retryConnection = false;}
             else {errorCallback("socket", error);}
         });
         server.on("close", function() {
