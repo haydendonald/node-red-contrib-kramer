@@ -1,3 +1,4 @@
+//Version 1.0 by Hayden Donald http://github.com/haydendonald
 var tcp = require('net');
 var outgoingBuffer = [];
 var incomingBuffer = [];
@@ -8,6 +9,7 @@ var errorCallback = undefined;
 var reconnectionCallback;
 var handlerTimeout = 100;
 var connected = false;
+var retryConnection = true;
 var server;
 module.exports = {
     //Start the server
@@ -29,16 +31,19 @@ module.exports = {
             }
         });
         server.on("error", function(error) {
-            errorCallback("socket", error);
+            if(error.toString().includes("ECONNREFUSED")){errorCallback("socket", "Connection Refused"); retryConnection = false;}
+            else {errorCallback("socket", error);}
         });
         server.on("close", function() {
-            if(connected == true) {
-                errorCallback("disconnected", "lost connection");
-                server.connect(port, ipAddress, function() {
-                    reconnectionCallback();
-                    connected = true;
-                });
-                connected = false;
+            if(retryConnection == true) {
+                if(connected == true) {
+                    errorCallback("disconnected", "lost connection");
+                    server.connect(port, ipAddress, function() {
+                        reconnectionCallback();
+                        connected = true;
+                    });
+                    connected = false;
+                }
             }
         });
     },

@@ -46,7 +46,7 @@ module.exports = function(RED)
             var nodeText = "";
             var errorText = "";
             switch(error) {
-                case "socket": nodeText = "Socket Error"; errorText = "Socket Error: " + description; break;
+                case "socket": nodeText = "Socket Error: " + description; errorText = "Socket Error: " + description; break;
                 case "disconnected": nodeText = "Disconnected"; errorText = "Disconnected: " + description; break;
                 case "cannot send": nodeText = "Cannot Send"; errorText = "Not Connected Cannot Send!"; break;
                 default: nodeText = "Unknown Error"; errorText = "Unknown Error: " + error + ", " + description; break;
