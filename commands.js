@@ -183,18 +183,23 @@ module.exports = {
             case "7451": {
                 func="mic1 mute";
                 param = parameterCode;
+                break;
             }
             case "7461": {
                 func="mic2 mute";
                 param = parameterCode;
+                break;
             }
             case "2541": {
                 func="lineMix mute";
                 param = parameterCode;
+                break;
+                
             }
             case "7431": {
                 func="output mute";
                 param = parameterCode;
+                break;
             }
             default: func = functionCode; param=parameterCode;
         }
