@@ -58,7 +58,8 @@ module.exports = function(RED)
       
 		//When the flows are stopped
         this.on("close", function() {
-            this.server.close();
+            network.server.close();
+            network.nodes = [];
         });
     }
 

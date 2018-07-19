@@ -1,4 +1,4 @@
-//Version 1.0 by Hayden Donald http://github.com/haydendonald
+//Version 1.1 by Hayden Donald http://github.com/haydendonald
 var tcp = require('net');
 var outgoingBuffer = [];
 var incomingBuffer = [];
@@ -57,11 +57,15 @@ module.exports = {
     },
 
     close: function close() {
+        server.destroy();
         connected = false;
         outgoingBuffer = [];
         incomingBuffer = [];
         clearInterval(outgoingInterval);
         clearInterval(incomingInterval);
+        incomingCallback = undefined;
+        errorCallback = undefined;
+        reconnectionCallback = undefined;
     },
 
     addOn: function addOn(on, callback) {

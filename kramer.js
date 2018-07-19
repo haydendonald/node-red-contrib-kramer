@@ -6,7 +6,6 @@ module.exports = function(RED)
     {
         RED.nodes.createNode(this, config);
         var network = RED.nodes.getNode(config.network);
-        //var server = network.server;
         var node = this;
         var connected = false;
         var commandBuffer = [];
@@ -14,7 +13,7 @@ module.exports = function(RED)
 
         network.link(node);
         node.on("close", function() {
-            network.server.close();
+            
         });
 
         node.on("input", function(msg) {
@@ -34,19 +33,19 @@ module.exports = function(RED)
                 else {
                     //Send it!
                     var callback = function(state) {
-                        if(state == true) {
+                        if(state === true) {
                             node.status({fill:"green",shape:"dot",text:"Sent!"});
                         }
-                        else if(state == false) {
+                        else if(state === false) {
                             RED.log.error("Failed To Send Command");
                             node.status({fill:"red",shape:"dot",text:"Failed To Send"});
                         }
                         else {
-                            var msg = {
-                                "topic":"response",
-                                "payload":state
-                            }
-                            node.send(msg);
+                            // var msg = { Not needed?
+                            //     "topic":"response",
+                            //     "payload":state
+                            // }
+                            // node.send(msg);
                             node.status({fill:"green",shape:"dot",text:"Got Response"});
                         }
                     }
@@ -74,10 +73,12 @@ function sendOutCommand(server, deviceId, type, func, param, callback) {
     if(type == "set"){type="0";}
     else if(type == "get"){type="1";}
     if(param == "" || param == undefined || param == null) {
-        var sendOutString = "#" + deviceId + "@Y " + type + "," + func;
+        var sendOutString = "#y " + type + "," + func;
+        var sendOutCheckString = "#" + deviceId + "@Y " + type + "," + func;
     }
     else {
-        var sendOutString = "#" + deviceId + "@Y " + type + "," + func + "," + param;;
+        var sendOutString = "#y " + type + "," + func + "," + param;
+        var sendOutCheckString = "#" + deviceId + "@Y " + type + "," + func + "," + param;
     }
     var buffer = new Buffer(sendOutString.length + 1);
     buffer.write(sendOutString);
@@ -100,13 +101,13 @@ function sendOutCommand(server, deviceId, type, func, param, callback) {
         //Message callback
         function(message) {
                 if(type == "0") {
-                    if(message.toString().substr(1).includes(sendOutString.substr(1)) && message.toString().includes("OK")) {
+                    if(message.toString().substr(1).includes(sendOutCheckString.substr(1)) && message.toString().includes("OK")) {
                         return true;
                     }
                 }
                 else if(type == "1"){ 
-                    if(message.toString().substr(1).includes(sendOutString.substr(1))) {
-                        returnedValue = message.toString().substr(sendOutString.length + 1);
+                    if(message.toString().substr(1).includes(sendOutCheckString.substr(1))) {
+                        returnedValue = message.toString().substr(sendOutCheckString.length + 1);
                         return true;
                     }     
                 }

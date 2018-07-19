@@ -106,7 +106,7 @@ module.exports = {
         firstIndex = 0;
         lastIndex = 0;
         for(var i = lasstIndex; i < rawMessage.toString().length; i++) {
-            if(rawMessage.toString()[i] == ",") {
+            if(rawMessage.toString()[i] == "," || rawMessage[i] == 0x0D) {
                 if(firstIndex == 0) {
                     firstIndex = i;
                 }
@@ -117,11 +117,10 @@ module.exports = {
         }
 
         var parameterCode = rawMessage.toString().substr(firstIndex + 1, lastIndex - 1);
-
         switch(functionCode) {
             case "110": {
                 func="display mode"; 
-                switch(rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '')) {
+                switch(parameterCode) {
                     case "0": param="single window"; break;
                     case "1": param="picture in picture"; break;
                     case "2": param="split"; break;
@@ -132,7 +131,7 @@ module.exports = {
             }
             case "120": {
                 func="input source";
-                switch(rawMessage.toString().substr(12, rawMessage.toString().substr(12, 6).indexOf(",")).replace(/\s/g, '')) {
+                switch(parameterCode) {
                     case "13": param="hdmi1"; break;
                     case "14": param="hdmi2"; break;
                     case "10": param="hdmi3"; break;
