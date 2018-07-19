@@ -58,7 +58,6 @@ module.exports = {
 
     close: function close() {
         connected = false;
-        server.destroy();
         outgoingBuffer = [];
         incomingBuffer = [];
         clearInterval(outgoingInterval);
