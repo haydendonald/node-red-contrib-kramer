@@ -9,6 +9,14 @@
         <label for="node-input-network"><i class="icon-bookmark"></i> Network</label>
         <input type="text" id="node-input-network">
     </div>
+    <div class="form-row">
+        <label for="node-input-alwaysSend"><i class="icon-tag"></i> Always Send MSG:</label>
+        <select id="node-input-alwaysSend">
+            <option value=""></option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+    </div>
 </script>
 
 <!-- Register -->
@@ -18,7 +26,8 @@
         color: '#fffbef',
         defaults: {
             name: {value: ""},
-            network: {value: "", type: "kramer-network"}
+            network: {value: "", type: "kramer-network"},
+            alwaysSend: {value: "yes", required: true}
         },
         inputs: 1,
         outputs: 1,

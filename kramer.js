@@ -10,6 +10,8 @@ module.exports = function(RED)
         var connected = false;
         var commandBuffer = [];
         var md5Hash;
+        this.sendMsg = false;
+        this.alwaysSend = config.alwaysSend == "yes";
 
         network.link(node);
         node.on("close", function() {
@@ -32,6 +34,7 @@ module.exports = function(RED)
                 }
                 else {
                     //Send it!
+                    node.sendMsg = true;
                     var callback = function(state) {
                         if(state === true) {
                             node.status({fill:"green",shape:"dot",text:"Sent!"});
@@ -39,6 +42,7 @@ module.exports = function(RED)
                         else if(state === false) {
                             RED.log.error("Failed To Send Command");
                             node.status({fill:"red",shape:"dot",text:"Failed To Send"});
+                            node.sendMsg = false;
                         }
                         else {
                             // var msg = { Not needed?
@@ -47,6 +51,7 @@ module.exports = function(RED)
                             // }
                             // node.send(msg);
                             node.status({fill:"green",shape:"dot",text:"Got Response"});
+                            sendMsg = false;
                         }
                     }
 

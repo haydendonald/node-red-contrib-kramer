@@ -70,7 +70,10 @@ module.exports = function(RED)
 //Send out the message to all the nodes
 function sendMsg(network, msg) {
     for(var i = 0; i < network.nodes.length; i++) {
-        network.nodes[i].send(msg);
+        //Only send the message if required
+        if(network.nodes[i].sendMsg == true || network.nodes[i].alwaysSend == true) {
+            network.nodes[i].send(msg);
+        }
     }
 }
 
