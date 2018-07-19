@@ -73,6 +73,7 @@ function sendMsg(network, msg) {
         //Only send the message if required
         if(network.nodes[i].sendMsg == true || network.nodes[i].alwaysSend == true) {
             network.nodes[i].send(msg);
+            network.nodes[i].sendMsg = false;
         }
     }
 }
