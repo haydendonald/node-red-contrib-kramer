@@ -13,7 +13,7 @@ module.exports = function(RED)
 
         network.link(node);
         node.on("close", function() {
-            
+
         });
 
         node.on("input", function(msg) {
@@ -26,7 +26,7 @@ module.exports = function(RED)
                     RED.log.warn("msg.payload.func Must Exist");
                     node.status({fill:"yellow",shape:"dot",text:"Syntax Error"});
                 }
-                else if(msg.payload.param === undefined || msg.payload.param === null){
+                else if(msg.payload.type == "set" && (msg.payload.param === undefined || msg.payload.param === null)){
                     RED.log.warn("msg.payload.param Must Exist");
                     node.status({fill:"yellow",shape:"dot",text:"Syntax Error"});
                 }
