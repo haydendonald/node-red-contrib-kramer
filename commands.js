@@ -42,6 +42,7 @@ module.exports = {
                     case "dp": return "16";
                     case "sdi": return "17";   
                 }
+                break;
             }
             case "input volume": {
                 return parameter;
