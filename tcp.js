@@ -11,6 +11,7 @@ var handlerTimeout = 100;
 var connected = false;
 var retryConnection = true;
 var server;
+var debug = false;
 module.exports = {
     //Start the server
     connect: function connect(port, ipAddress, callback) {
@@ -26,6 +27,7 @@ module.exports = {
         outgoingInterval = setInterval(outgoingHandler, handlerTimeout);
         incomingInterval = setInterval(incomingHandler, handlerTimeout);
         server.on("data", function(message){
+            if(debug == true){console.log(message);console.log("" + message);}
             if(incomingBuffer.includes(message) == false) {
                 incomingBuffer.push(message);
             }
@@ -155,6 +157,7 @@ function outgoingHandler() {
                         outgoingBuffer[i].retries += 1;
                         outgoingBuffer[i].timeout = 10 + (i * 5) + (outgoingBuffer[i].retries * 5);
                         server.write(outgoingBuffer[i].buffer);
+                        if(debug == true){console.log(outgoingBuffer[i].buffer);console.log("" + outgoingBuffer[i].buffer);}
                     }
                 }
                 else {
