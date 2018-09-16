@@ -65,6 +65,12 @@ module.exports = {
             case "line mix": {
                 return parameter;
             }
+            case "mic1 mute": {
+                return parameter;
+            }
+            case "mic2 mute": {
+                return parameter;
+            }
             case "output mute": {
                 return parameter;
             }
